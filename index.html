@@ -18,48 +18,71 @@
     -->
     <div class="container-fluid">
 
+      <div ng-controller="StationsController as Cstations">
+      <input class="form-control searchStations" type="text" ng-model="searchStations">
       <div class="row">
-        <div class="col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-            <div ng-controller="StationsController as Cstations">
-                    
-                <input class="form-control searchStations" type="text" ng-model="searchStations">
-                
-                <div class="stationDetails animatedCSS" ng-if="Cstations.currentStation">
-                    station: {{Cstations.currentStation.name}}
-                </div>
+        <div class="col-md-4">
+          
 
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Search Result {{filtered.length}} </h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="list-group">
-                            <div ng-click="Cstations.setCurrentStation(station)" ng-repeat="station in Cstations.stations | filter:searchStations as filtered">
-                                <a class="list-group-item">{{station.name}}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          <div class="stationDetails animatedCSS" ng-if="Cstations.currentStation">
+              station: {{Cstations.currentStation.name}}
+          </div>
 
-            </div>
-        </div> 
-      </div>
+          <div class="panel panel-primary">
+              <div class="panel-heading">
+                  <h3 class="panel-title">Search Result {{filtered.length}} </h3>
+              </div>
+              <div class="panel-body">
+                  <div class="list-group">
+                      <div ng-click="Cstations.setCurrentStation(station)" ng-repeat="station in Cstations.allStations | filter:searchStations as filtered">
+                          <a class="list-group-item">{{station.name}}</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div><!-- .col-md-4 -->
 
-    </div>
+        <div class="col-md-8">
+          <div class="panel panel-primary map">
+              <div class="panel-heading">
+                  <h3 class="panel-title">Map {{filtered.length}} </h3>
+              </div>
+              <div class="panel-body">
+                <ui-gmap-google-map center='Cstations.map.center' zoom='Cstations.map.zoom'>
+                  <ui-gmap-markers models="filtered" coords="'self'" icon="'icon'" idKey="'uic'">
+                  </ui-gmap-markers>
+                </ui-gmap-google-map>
+              </div>
+          </div>
+        </div><!-- .col-md-8 -->
+
+      </div><!-- .row -->
+    </div><!-- ng-controller -->
+
+  </div><!-- .container-fluid -->
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="public/js/bootstrap.js"></script>
-    
-    <script src="util/EventDispatcher.js"></script>
+
+
     <script src="node_modules/angular/angular.js"></script>
     <script src="node_modules/angular-animate/angular-animate.js"></script>
-    <script src="app/app.js"></script>
-    <script src="app/controllers/stations.controller.js"></script>
+    <script src='node_modules/lodash/lodash.js'></script>
 
-   <!--  <script src="app/controllers/students.controller.js"></script> -->
+    <script src="app/app.module.js"></script>
+
+    <script src='lib/angular-simple-logger.js'></script>
+    <script src='lib/angular-google-maps.js'></script>
+
+    <!-- include all station components -->
+    <script src="app/stations/stations.module.js"></script>
+    <script src="app/stations/stations.controller.js"></script>
+    <script src="app/stations/stations.service.js"></script>
+
+    <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
 
     </body>
 </html>
